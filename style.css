@@ -470,16 +470,36 @@ a { color: var(--gold-dark); }
 .booking-success { text-align: center; }
 .booking-success h3 { font-size: 1.8rem; margin-bottom: 8px; }
 
-.staff-link { text-align: center; margin: 26px 0 0; }
+.staff-link { text-align: center; margin: 30px 0 0; }
 .staff-link a {
-  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(176, 141, 87, 0.35);
+  box-shadow: 0 1px 2px rgba(44, 36, 32, 0.06), 0 8px 24px rgba(44, 36, 32, 0.07);
+  color: var(--ink);
   text-decoration: none;
-  font-size: 0.82rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  transition: color 0.2s;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
 }
-.staff-link a:hover { color: var(--gold-dark); }
+.staff-link a svg { flex-shrink: 0; }
+.staff-link a:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--gold);
+  box-shadow: 0 2px 4px rgba(44, 36, 32, 0.07), 0 14px 34px rgba(176, 141, 87, 0.22);
+  transform: translateY(-1px);
+}
+.staff-link a:active {
+  transform: scale(0.97);
+  box-shadow: 0 1px 2px rgba(44, 36, 32, 0.08);
+}
 
 @media (max-width: 760px) {
   .booking-grid, .booking-grid:has(#bkStaff) { grid-template-columns: 1fr; }
