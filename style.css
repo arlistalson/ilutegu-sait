@@ -386,6 +386,95 @@ a { color: var(--gold-dark); }
 .cta-band h2 { color: var(--bg); margin-bottom: 12px; }
 .cta-band p { color: #c9beb2; margin: 0 0 32px; }
 
+/* Booking */
+.booking-card, .booking-success {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 44px 40px;
+  box-shadow: 0 18px 40px rgba(44, 36, 32, 0.08);
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 22px;
+}
+
+.booking-grid:has(#bkStaff) { grid-template-columns: 1fr 1fr 1fr; }
+
+.form-row { margin-bottom: 20px; }
+
+.form-row label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 7px;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--bg);
+  font-family: "Jost", sans-serif;
+  font-size: 0.98rem;
+  font-weight: 300;
+  color: var(--ink);
+}
+
+.form-row select:disabled { opacity: 0.55; }
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  outline: 1px solid var(--gold);
+  border-color: var(--gold);
+}
+
+.bk-price {
+  display: inline-block;
+  margin: -6px 0 20px;
+  padding: 8px 16px;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gold-dark);
+  background: rgba(176, 141, 87, 0.1);
+  border-left: 3px solid var(--gold);
+  border-radius: 3px;
+}
+
+.booking-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 4px 0 24px;
+}
+
+.booking-error { color: #a33; font-size: 0.9rem; }
+
+.booking-submit {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Jost", sans-serif;
+}
+
+.booking-success { text-align: center; }
+.booking-success h3 { font-size: 1.8rem; margin-bottom: 8px; }
+
+@media (max-width: 760px) {
+  .booking-grid, .booking-grid:has(#bkStaff) { grid-template-columns: 1fr; }
+  .booking-card, .booking-success { padding: 32px 22px; }
+}
+
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);

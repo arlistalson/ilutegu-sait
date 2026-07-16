@@ -56,7 +56,7 @@
       <a href="#teenused">Teenused</a>
       <a href="#hinnakiri">Hinnakiri</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener">Broneeri</a>
+      <a href="#broneeri">Broneeri</a>
       <a href="en.html" class="lang-switch">EN</a>
     </nav>
   </div>
@@ -66,7 +66,7 @@
   <p class="eyebrow">Ilusalong · Tabasalu</p>
   <h1>Kogupere juuksur ja ilusalong</h1>
   <p class="lead">Juuksur, massaaž, ripsmed ja pediküür – kogu pere ilu ja heaolu ühe katuse all, südamega tehtud.</p>
-  <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Broneeri aeg</a>
+  <a href="#broneeri" class="btn btn-gold">Broneeri aeg</a>
   <a href="#hinnakiri" class="btn btn-ghost">Vaata hinnakirja</a>
 </section>
 
@@ -109,7 +109,7 @@
         <h2>Meie salong</h2>
         <p>Ilutegu on hubane kogupere ilusalong Tabasalu südames. Meie juurde on oodatud kõik – lastest vanavanemateni, esimesest tukalõikusest piduliku soenguni.</p>
         <p>Salongi ees on tasuta parkimine ja bussipeatus asub vaid 200 meetri kaugusel.</p>
-        <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Broneeri aeg</a>
+        <a href="#broneeri" class="btn btn-gold">Broneeri aeg</a>
       </div>
     </div>
   </div>
@@ -182,10 +182,76 @@
   </div>
 </section>
 
-<section class="cta-band">
-  <h2>Broneeri oma aeg</h2>
-  <p>Vali sobiv aeg ja teenus mugavalt veebis – vaid mõne klikiga.</p>
-  <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Broneeri veebis</a>
+<section id="broneeri" class="section section-alt">
+  <div class="container">
+    <h2>Broneeri aeg</h2>
+    <p class="section-sub">Saada broneeringu soov</p>
+
+    <form class="booking-card" id="bookingForm" novalidate>
+      <div class="booking-grid">
+        <div class="form-row">
+          <label for="bkCategory">Teenus *</label>
+          <select id="bkCategory" required>
+            <option value="" disabled selected>Vali valdkond…</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="bkService">Täpne teenus *</label>
+          <select id="bkService" required disabled>
+            <option value="" disabled selected>Vali kõigepealt valdkond</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="bk-price" id="bkPrice" hidden></p>
+
+      <div class="booking-grid">
+        <div class="form-row">
+          <label for="bkStaff">Teenindaja *</label>
+          <select id="bkStaff" required disabled>
+            <option value="" disabled selected>Vali kõigepealt teenus</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="bkDate">Soovitud kuupäev *</label>
+          <input type="date" id="bkDate" required>
+        </div>
+        <div class="form-row">
+          <label for="bkTime">Soovitud kellaaeg *</label>
+          <select id="bkTime" required>
+            <option value="" disabled selected>Vali aeg…</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="booking-grid">
+        <div class="form-row">
+          <label for="bkName">Nimi *</label>
+          <input type="text" id="bkName" autocomplete="name" required>
+        </div>
+        <div class="form-row">
+          <label for="bkPhone">Telefon *</label>
+          <input type="tel" id="bkPhone" autocomplete="tel" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="bkNotes">Lisainfo</label>
+        <textarea id="bkNotes" rows="3" placeholder="nt juuste pikkus, soovid, lapse vanus…"></textarea>
+      </div>
+
+      <p class="booking-note">Broneering kinnitatakse telefoni või e-posti teel. Lahtiolekuajad E–R 9.00–20.00, L–P kokkuleppel.</p>
+      <p class="booking-error" id="bkError" hidden>Palun täida kõik tärniga märgitud väljad.</p>
+
+      <button type="submit" class="btn btn-gold booking-submit">Saada broneeringu soov</button>
+    </form>
+
+    <div class="booking-success" id="bkSuccess" hidden>
+      <h3>Aitäh!</h3>
+      <p id="bkSuccessText">Sinu broneeringu soov on teele saadetud. Võtame peagi ühendust!</p>
+      <p>Kiireloomulise sooviga helista <a href="tel:+37253000670">+372 5300 0670</a>.</p>
+    </div>
+  </div>
 </section>
 
 <section id="kontakt" class="section">
@@ -235,6 +301,162 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.12 });
 revealTargets.forEach(el => observer.observe(el));
+
+/* Broneerimine – ilubron API + FormSubmit teavitused */
+/* FORM_ENDPOINT peab olema FormSubmitis aktiveeritud. TESTIMISEKS arlistalson@gmail.com. */
+const FORM_ENDPOINT = "arlistalson@gmail.com";
+const SALON_EMAIL = "terts75@gmail.com";
+const STAFF_EMAILS = {
+  "Doris": "doristukk@gmail.com",
+  "Ene": "eneorumaa2@gmail.com",
+  "Terje": "terts75@gmail.com",
+  "Keili": "juursalu.keili@gmail.com",
+  "Anette": "anettekontson@gmail.com"
+};
+const API = "https://ilubron.onrender.com/api/public";
+const ANY_WORKER = "Esimene vaba";
+
+const $ = id => document.getElementById(id);
+const bkCategory = $("bkCategory"), bkService = $("bkService"), bkStaff = $("bkStaff"),
+      bkDate = $("bkDate"), bkTime = $("bkTime"), bkPrice = $("bkPrice"), bkError = $("bkError");
+
+let SERVICES = [], WORKERS = [];
+const CAT_ENUM = { "Juuksur": "JUUKSUR", "Massaaž": "MASSAAZ", "Ripsmed": "RIPSMED", "Pediküür": "PEDIKYYR" };
+
+function fillSelect(sel, items, placeholder) {
+  sel.innerHTML = "";
+  const ph = new Option(placeholder, "", true, true);
+  ph.disabled = true;
+  sel.add(ph);
+  items.forEach(it => sel.add(new Option(it.label, it.value)));
+  sel.disabled = items.length === 0;
+}
+
+function showError(msg) {
+  bkError.textContent = msg;
+  bkError.hidden = false;
+}
+
+fetch(API + "/services").then(r => r.json()).then(services => {
+  SERVICES = services;
+  return fetch(API + "/workers").then(r => r.json());
+}).then(workers => {
+  WORKERS = workers;
+  [...new Set(SERVICES.map(s => s.category))]
+    .forEach(cat => bkCategory.add(new Option(cat, cat)));
+}).catch(() => {
+  showError("Broneerimissüsteem ei ole hetkel kättesaadav. Palun helista +372 5300 0670.");
+  document.querySelector(".booking-submit").disabled = true;
+});
+
+bkCategory.addEventListener("change", () => {
+  const services = SERVICES.filter(s => s.category === bkCategory.value);
+  fillSelect(bkService, services.map(s => ({ label: s.name, value: s.id })), "Vali teenus…");
+  const staff = WORKERS.filter(w => w.categories.includes(CAT_ENUM[bkCategory.value]))
+    .map(w => ({ label: w.name, value: w.id }));
+  if (staff.length > 1) staff.push({ label: ANY_WORKER, value: "any" });
+  fillSelect(bkStaff, staff, "Vali teenindaja…");
+  if (staff.length === 1) bkStaff.value = String(staff[0].value);
+  bkPrice.hidden = true;
+  resetTimes("Vali kõigepealt teenus ja kuupäev");
+});
+
+bkService.addEventListener("change", () => {
+  const s = SERVICES.find(s => s.id == bkService.value);
+  const h = Math.floor(s.durationMinutes / 60), m = s.durationMinutes % 60;
+  bkPrice.textContent = "Hind: " + s.priceText + " · kestus " +
+    (h ? h + " h" : "") + (h && m ? " " : "") + (m ? m + " min" : "");
+  bkPrice.hidden = false;
+  loadSlots();
+});
+bkStaff.addEventListener("change", loadSlots);
+bkDate.addEventListener("change", loadSlots);
+
+function resetTimes(placeholder) {
+  bkTime.innerHTML = "";
+  const ph = new Option(placeholder, "", true, true);
+  ph.disabled = true;
+  bkTime.add(ph);
+  bkTime.disabled = true;
+}
+
+function loadSlots() {
+  if (!bkService.value || !bkStaff.value || !bkDate.value) return;
+  resetTimes("Laen vabu aegu…");
+  let url = API + "/availability?serviceId=" + bkService.value + "&date=" + bkDate.value;
+  if (bkStaff.value !== "any") url += "&workerId=" + bkStaff.value;
+  fetch(url).then(r => r.json()).then(data => {
+    const slots = (data.freeSlots || []).map(t => t.slice(0, 5));
+    if (!slots.length) { resetTimes("Sel päeval vabu aegu pole"); return; }
+    fillSelect(bkTime, slots.map(t => ({ label: t.replace(":", "."), value: t })), "Vali aeg…");
+  }).catch(() => resetTimes("Aegade laadimine ebaõnnestus"));
+}
+
+const today = new Date();
+bkDate.min = today.toISOString().split("T")[0];
+resetTimes("Vali kõigepealt teenus ja kuupäev");
+
+function notifyByEmail(booking) {
+  const cc = [SALON_EMAIL, STAFF_EMAILS[booking.workerName] || ""].filter(Boolean).join(",");
+  return fetch("https://formsubmit.co/ajax/" + FORM_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({
+      _subject: "Uus broneering – " + booking.serviceName + " (" + booking.workerName + ")",
+      _template: "table",
+      _cc: cc,
+      Teenus: booking.serviceName + " (" + booking.priceText + ")",
+      Teenindaja: booking.workerName,
+      "Kuupäev": booking.date,
+      Kellaaeg: booking.startTime.slice(0, 5) + "–" + booking.endTime.slice(0, 5),
+      Nimi: booking.customerName,
+      Telefon: booking.customerPhone,
+      Lisainfo: booking.notes || "-"
+    })
+  }).catch(() => {});
+}
+
+$("bookingForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const required = [bkCategory, bkService, bkStaff, bkDate, bkTime, $("bkName"), $("bkPhone")];
+  if (required.some(f => !f.value)) { showError("Palun täida kõik tärniga märgitud väljad."); return; }
+  bkError.hidden = true;
+
+  const btn = document.querySelector(".booking-submit");
+  btn.disabled = true;
+  btn.textContent = "Broneerin…";
+
+  fetch(API + "/bookings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      serviceId: Number(bkService.value),
+      workerId: bkStaff.value === "any" ? null : Number(bkStaff.value),
+      date: bkDate.value,
+      startTime: bkTime.value,
+      customerName: $("bkName").value,
+      customerPhone: $("bkPhone").value,
+      notes: $("bkNotes").value || null
+    })
+  }).then(res => res.json().then(data => ({ ok: res.ok, status: res.status, data })))
+    .then(({ ok, status, data }) => {
+      if (!ok) {
+        throw new Error(status === 409
+          ? (data.detail || "Valitud aeg on vahepeal broneeritud. Palun vali uus aeg.")
+          : "Broneerimine ebaõnnestus. Palun proovi uuesti või helista +372 5300 0670.");
+      }
+      notifyByEmail(data);
+      $("bkSuccessText").textContent = "Sinu aeg on broneeritud: " + data.serviceName +
+        ", " + data.workerName + ", " + data.date + " kell " + data.startTime.slice(0, 5) + ".";
+      $("bookingForm").hidden = true;
+      $("bkSuccess").hidden = false;
+    }).catch(err => {
+      btn.disabled = false;
+      btn.textContent = "Saada broneeringu soov";
+      showError(err.message);
+      loadSlots();
+    });
+});
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9ac4abef822d40cf8b7336e047d44fff"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
