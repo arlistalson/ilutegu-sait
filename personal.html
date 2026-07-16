@@ -60,6 +60,11 @@
       <h3 style="margin-top:32px">Minu suletud päevad</h3>
       <ul class="dayoff-list" id="stList"></ul>
     </div>
+
+    <div id="stBookingsWrap" hidden>
+      <h3 style="margin-top:32px">Minu broneeringud</h3>
+      <ul class="dayoff-list" id="stBookings"></ul>
+    </div>
   </div>
 
   <p class="staff-link"><a href="index.html#broneeri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#96733f" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2z"/></svg>Tagasi broneerimise juurde</a></p>
@@ -144,8 +149,47 @@ $("stClose").addEventListener("click", () => {
     }).catch(() => msg("Ühendus ebaõnnestus. Proovi uuesti.", false));
 });
 
-$("stPin").addEventListener("change", refreshList);
-$("stWorker").addEventListener("change", refreshList);
+function refreshBookings() {
+  if (!$("stWorker").value || !$("stPin").value) return;
+  const auth = "workerId=" + $("stWorker").value + "&pin=" + encodeURIComponent($("stPin").value);
+  fetch(API + "/bookings?" + auth)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(bookings => {
+      const ul = $("stBookings");
+      ul.innerHTML = "";
+      if (!bookings.length) {
+        const li = document.createElement("li");
+        li.textContent = "Tulevasi broneeringuid pole.";
+        ul.appendChild(li);
+      }
+      bookings.forEach(b => {
+        const li = document.createElement("li");
+        const span = document.createElement("span");
+        span.textContent = b.date + " " + b.startTime.slice(0, 5) + "–" + b.endTime.slice(0, 5) +
+          " · " + b.serviceName + " · " + b.customerName + " (" + b.customerPhone + ")";
+        const btn = document.createElement("button");
+        btn.className = "open-btn";
+        btn.textContent = "Tühista";
+        btn.onclick = () => {
+          if (!confirm("Tühistan broneeringu: " + b.date + " " + b.startTime.slice(0, 5) +
+                       " " + b.customerName + "? Aeg muutub teistele broneeritavaks. NB! Teavita klienti ise.")) return;
+          fetch(API + "/bookings/" + b.id + "/cancel?" + auth, { method: "PATCH" })
+            .then(r => {
+              if (r.ok) { msg("Broneering tühistatud, aeg on jälle vaba.", true); refreshBookings(); }
+              else { msg("Tühistamine ebaõnnestus (" + r.status + ").", false); }
+            })
+            .catch(() => msg("Ühendus ebaõnnestus. Proovi uuesti.", false));
+        };
+        li.append(span, btn);
+        ul.appendChild(li);
+      });
+      $("stBookingsWrap").hidden = false;
+    }).catch(() => {});
+}
+
+function refreshAll() { refreshList(); refreshBookings(); }
+$("stPin").addEventListener("change", refreshAll);
+$("stWorker").addEventListener("change", refreshAll);
 </script>
 </body>
 </html>
