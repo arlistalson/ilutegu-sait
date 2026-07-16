@@ -61,6 +61,8 @@
       <ul class="dayoff-list" id="stList"></ul>
     </div>
   </div>
+
+  <p class="staff-link"><a href="index.html#broneeri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#96733f" aria-hidden="true"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2z"/></svg>Tagasi broneerimise juurde</a></p>
 </div>
 
 <script>
@@ -99,7 +101,11 @@ function refreshList() {
         btn.onclick = () => {
           fetch(API + "/dayoffs?workerId=" + $("stWorker").value +
                 "&pin=" + encodeURIComponent($("stPin").value) + "&date=" + d.date, { method: "DELETE" })
-            .then(r => { if (r.ok) { msg("Päev " + d.date + " on jälle avatud.", true); refreshList(); } });
+            .then(r => {
+              if (r.ok) { msg("Päev " + d.date + " on jälle avatud.", true); refreshList(); }
+              else { msg("Avamine ebaõnnestus (" + r.status + "). Proovi uuesti.", false); }
+            })
+            .catch(() => msg("Ühendus ebaõnnestus. Proovi uuesti.", false));
         };
         li.append(span, btn);
         ul.appendChild(li);
