@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilutegu – Töötaja vaba päev</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+.staff-wrap { max-width: 560px; margin: 60px auto; padding: 0 24px; }
+.staff-wrap h1 { font-size: 2rem; text-align: center; margin-bottom: 6px; }
+.staff-sub { text-align: center; color: var(--ink-soft); margin-bottom: 36px; }
+.dayoff-list { list-style: none; padding: 0; margin: 24px 0 0; }
+.dayoff-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 4px; border-bottom: 1px dotted var(--line); font-size: 0.97rem;
+}
+.dayoff-list .open-btn {
+  background: none; border: 1px solid var(--gold); color: var(--gold-dark);
+  border-radius: 3px; padding: 4px 14px; cursor: pointer; font-family: "Jost", sans-serif;
+}
+.dayoff-list .open-btn:hover { background: var(--gold); color: #fff; }
+.staff-msg { font-size: 0.92rem; margin-top: 14px; }
+.staff-msg.ok { color: #3a7d44; }
+.staff-msg.err { color: #a33; }
+</style>
+</head>
+<body>
+
+<div class="staff-wrap">
+  <a href="index.html" class="logo" style="display:block;text-align:center;margin-bottom:28px">Ilu<span>tegu</span></a>
+  <h1>Vaba päeva sulgemine</h1>
+  <p class="staff-sub">Sulge päev, mil sa broneeringuid vastu ei võta.</p>
+
+  <div class="booking-card">
+    <div class="booking-grid">
+      <div class="form-row">
+        <label for="stWorker">Teenindaja</label>
+        <select id="stWorker"><option value="" disabled selected>Vali…</option></select>
+      </div>
+      <div class="form-row">
+        <label for="stPin">PIN-kood</label>
+        <input type="password" id="stPin" inputmode="numeric" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="stDate">Kuupäev</label>
+      <input type="date" id="stDate">
+    </div>
+    <div class="form-row">
+      <label for="stReason">Põhjus (valikuline, näeb ainult salong)</label>
+      <input type="text" id="stReason" placeholder="nt puhkus">
+    </div>
+
+    <button class="btn btn-gold booking-submit" id="stClose">Sulge päev</button>
+    <p class="staff-msg" id="stMsg" hidden></p>
+
+    <div id="stListWrap" hidden>
+      <h3 style="margin-top:32px">Minu suletud päevad</h3>
+      <ul class="dayoff-list" id="stList"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "https://ilubron.onrender.com/api/staff";
+const PUBLIC_API = "https://ilubron.onrender.com/api/public";
+const $ = id => document.getElementById(id);
+
+fetch(PUBLIC_API + "/workers").then(r => r.json()).then(ws =>
+  ws.forEach(w => $("stWorker").add(new Option(w.name, w.id)))
+);
+
+$("stDate").min = new Date().toISOString().split("T")[0];
+
+function msg(text, ok) {
+  const el = $("stMsg");
+  el.textContent = text;
+  el.className = "staff-msg " + (ok ? "ok" : "err");
+  el.hidden = false;
+}
+
+function refreshList() {
+  if (!$("stWorker").value || !$("stPin").value) return;
+  fetch(API + "/dayoffs?workerId=" + $("stWorker").value + "&pin=" + encodeURIComponent($("stPin").value))
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(days => {
+      const ul = $("stList");
+      ul.innerHTML = "";
+      days.forEach(d => {
+        const li = document.createElement("li");
+        const span = document.createElement("span");
+        span.textContent = d.date + (d.reason ? " – " + d.reason : "") +
+          (d.existingBookings > 0 ? " (" + d.existingBookings + " broneeringut!)" : "");
+        const btn = document.createElement("button");
+        btn.className = "open-btn";
+        btn.textContent = "Ava uuesti";
+        btn.onclick = () => {
+          fetch(API + "/dayoffs?workerId=" + $("stWorker").value +
+                "&pin=" + encodeURIComponent($("stPin").value) + "&date=" + d.date, { method: "DELETE" })
+            .then(r => { if (r.ok) { msg("Päev " + d.date + " on jälle avatud.", true); refreshList(); } });
+        };
+        li.append(span, btn);
+        ul.appendChild(li);
+      });
+      $("stListWrap").hidden = false;
+    }).catch(() => {});
+}
+
+$("stClose").addEventListener("click", () => {
+  if (!$("stWorker").value || !$("stPin").value || !$("stDate").value) {
+    msg("Vali teenindaja, sisesta PIN ja kuupäev.", false);
+    return;
+  }
+  fetch(API + "/dayoffs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      workerId: Number($("stWorker").value),
+      pin: $("stPin").value,
+      date: $("stDate").value,
+      reason: $("stReason").value || null
+    })
+  }).then(res => res.json().then(data => ({ ok: res.ok, status: res.status, data })))
+    .then(({ ok, status, data }) => {
+      if (!ok) {
+        msg(status === 401 ? "Vale PIN-kood." : (data.detail || "Sulgemine ebaõnnestus."), false);
+        return;
+      }
+      let text = "Päev " + data.date + " on broneeringutele suletud.";
+      if (data.existingBookings > 0) {
+        text += " NB! Sel päeval on juba " + data.existingBookings +
+                " broneering(ut) – palun teavita kliente ise, need ei tühistu automaatselt.";
+      }
+      msg(text, true);
+      refreshList();
+    }).catch(() => msg("Ühendus ebaõnnestus. Proovi uuesti.", false));
+});
+
+$("stPin").addEventListener("change", refreshList);
+$("stWorker").addEventListener("change", refreshList);
+</script>
+</body>
+</html>
