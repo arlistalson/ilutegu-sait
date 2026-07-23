@@ -629,6 +629,18 @@ a { color: var(--gold-dark); }
 .site-footer .socials { margin-bottom: 10px; }
 .site-footer .socials a { margin: 0 10px; text-decoration: none; letter-spacing: 1px; }
 
+.site-footer .footer-meta {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  opacity: 0.8;
+}
+.site-footer .footer-meta a {
+  color: var(--gold-dark);
+  text-decoration: none;
+  font-weight: 400;
+}
+
 /* ============================================================
    Reveal / entrance animation system
    Only opacity + transform are animated (GPU-friendly, no layout shift).
@@ -679,13 +691,15 @@ a { color: var(--gold-dark); }
 .site-header nav a:not(.nav-cta):not(.lang-link),
 .contact-block a,
 .salon-text a:not(.btn),
-.site-footer .socials a {
+.site-footer .socials a,
+.site-footer .footer-meta a {
   position: relative;
 }
 .site-header nav a:not(.nav-cta):not(.lang-link)::after,
 .contact-block a::after,
 .salon-text a:not(.btn)::after,
-.site-footer .socials a::after {
+.site-footer .socials a::after,
+.site-footer .footer-meta a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -700,7 +714,8 @@ a { color: var(--gold-dark); }
 .site-header nav a:not(.nav-cta):not(.lang-link):hover::after,
 .contact-block a:hover::after,
 .salon-text a:not(.btn):hover::after,
-.site-footer .socials a:hover::after {
+.site-footer .socials a:hover::after,
+.site-footer .footer-meta a:hover::after {
   transform: scaleX(1);
 }
 
