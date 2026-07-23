@@ -14,6 +14,9 @@
   --header-ink: #2c2420;
   --header-line: #e5dccf;
   --header-gold: #96733f;
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-duration: 600ms;
 }
 
 :root[data-theme="dark"] {
@@ -116,12 +119,14 @@ a { color: var(--gold-dark); }
   color: #fff;
   padding: 9px 20px;
   border-radius: 26px;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
 }
 
 .site-header nav a.nav-cta:hover {
   background: linear-gradient(135deg, var(--header-gold) 0%, var(--gold) 100%);
   color: #fff;
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 8px 18px rgba(150, 115, 63, 0.28);
 }
 
 .lang-link {
@@ -225,8 +230,13 @@ a { color: var(--gold-dark); }
   font-size: 0.85rem;
   font-weight: 400;
   border-radius: var(--radius);
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s,
+              transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+  will-change: transform;
 }
+
+.btn:hover { transform: translateY(-2px) scale(1.03); }
+.btn:active { transform: translateY(0) scale(0.99); }
 
 .btn-gold {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
@@ -314,7 +324,7 @@ a { color: var(--gold-dark); }
   padding: 40px 28px;
   text-align: center;
   box-shadow: 0 10px 26px rgba(44, 36, 32, 0.07);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
   overflow: hidden;
 }
 
@@ -331,7 +341,7 @@ a { color: var(--gold-dark); }
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: 0 22px 40px rgba(44, 36, 32, 0.14);
 }
 
@@ -619,20 +629,102 @@ a { color: var(--gold-dark); }
 .site-footer .socials { margin-bottom: 10px; }
 .site-footer .socials a { margin: 0 10px; text-decoration: none; letter-spacing: 1px; }
 
-/* Scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+/* ============================================================
+   Reveal / entrance animation system
+   Only opacity + transform are animated (GPU-friendly, no layout shift).
+   Elements are hidden only when JS is present (`.js` on <html>), so the
+   site stays fully visible if the script fails to load.
+   ============================================================ */
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-scale {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes reveal-btn {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: none;
+.js [data-reveal] { opacity: 0; }
+
+.js [data-reveal].is-visible {
+  animation: reveal-up var(--reveal-duration) var(--ease-out) var(--reveal-delay, 0ms) both;
+}
+.js [data-reveal="scale"].is-visible { animation-name: reveal-scale; }
+.js [data-reveal="btn"].is-visible   { animation-name: reveal-btn; }
+
+/* Once finished, drop the animation so component hover transforms take over
+   (a filled animation would otherwise override :hover transforms). */
+.js [data-reveal].reveal-done { opacity: 1; animation: none; }
+
+/* Service icons gently fade + scale in with the card */
+.js .service-card[data-reveal] .icon { opacity: 0; }
+.js .service-card[data-reveal].is-visible .icon {
+  animation: reveal-scale 500ms var(--ease-out) 160ms both;
+}
+.js .service-card[data-reveal].reveal-done .icon { opacity: 1; animation: none; }
+
+/* Navigation slides down slightly on page load */
+@keyframes nav-slide-down {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: none; }
+}
+.site-header { animation: nav-slide-down 600ms var(--ease-out) both; }
+
+/* ---- Elegant underline animation for text links ---- */
+.site-header nav a:not(.nav-cta):not(.lang-link),
+.contact-block a,
+.salon-text a:not(.btn),
+.site-footer .socials a {
+  position: relative;
+}
+.site-header nav a:not(.nav-cta):not(.lang-link)::after,
+.contact-block a::after,
+.salon-text a:not(.btn)::after,
+.site-footer .socials a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s var(--ease-out);
+}
+.site-header nav a:not(.nav-cta):not(.lang-link):hover::after,
+.contact-block a:hover::after,
+.salon-text a:not(.btn):hover::after,
+.site-footer .socials a:hover::after {
+  transform: scaleX(1);
 }
 
+/* Salon photo lifts gently on hover */
+.salon-photo img {
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+.salon-photo:hover img {
+  transform: scale(1.02);
+  box-shadow: 0 26px 52px rgba(44, 36, 32, 0.18);
+}
+
+/* Mobile: lighter, shorter entrances */
+@media (max-width: 760px) {
+  :root { --reveal-duration: 460ms; }
+}
+
+/* Respect reduced-motion: show everything, no entrance animation */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .js [data-reveal],
+  .js .service-card[data-reveal] .icon { opacity: 1 !important; }
+  .js [data-reveal].is-visible,
+  .js .service-card[data-reveal].is-visible .icon,
+  .site-header { animation: none !important; }
 }
 
 /* Responsive */

@@ -6,6 +6,7 @@
   var stored = localStorage.getItem("ilutegu-theme");
   var theme = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   document.documentElement.dataset.theme = theme;
+  document.documentElement.classList.add("js");
 })();
 </script>
 <meta charset="UTF-8">
@@ -75,37 +76,37 @@
 
 <section class="hero-wrap">
   <div class="container">
-    <div class="hero">
-      <p class="eyebrow">Ilusalong · Tabasalu</p>
-      <h1>Kogupere juuksur ja ilusalong</h1>
-      <p class="lead">Juuksur, massaaž, ripsmed ja pediküür – kogu pere ilu ja heaolu ühe katuse all, südamega tehtud.</p>
-      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Broneeri aeg</a>
-      <a href="#hinnakiri" class="btn btn-ghost">Vaata hinnakirja</a>
+    <div class="hero" data-reveal-now data-reveal-group="110">
+      <p class="eyebrow" data-reveal>Ilusalong · Tabasalu</p>
+      <h1 data-reveal>Kogupere juuksur ja ilusalong</h1>
+      <p class="lead" data-reveal>Juuksur, massaaž, ripsmed ja pediküür – kogu pere ilu ja heaolu ühe katuse all, südamega tehtud.</p>
+      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold" data-reveal="btn">Broneeri aeg</a>
+      <a href="#hinnakiri" class="btn btn-ghost" data-reveal="btn">Vaata hinnakirja</a>
     </div>
   </div>
 </section>
 
 <section id="teenused" class="section">
-  <div class="container">
-    <h2>Teenused</h2>
-    <p class="section-sub">Mida me pakume</p>
-    <div class="services-grid">
-      <div class="service-card">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Teenused</h2>
+    <p class="section-sub" data-reveal>Mida me pakume</p>
+    <div class="services-grid" data-reveal-group="100">
+      <div class="service-card" data-reveal>
         <div class="icon">✂</div>
         <h3>Juuksur</h3>
         <p>Lõikused, värvimine, salgutamine ja soengud kogu perele – lastest vanavanemateni.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">✧</div>
         <h3>Massaaž</h3>
         <p>Klassikaline, aroomi- ja lastemassaaž ning reflektoorne jalalabateraapia.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">❋</div>
         <h3>Ripsmed</h3>
         <p>Klassikalised ja hübriidripsmepikendused ning hooldus.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">❀</div>
         <h3>Pediküür</h3>
         <p>Spa-pediküür geellakiga või ilma – hellitus sinu jalgadele.</p>
@@ -117,16 +118,16 @@
 <section id="salong" class="section section-alt">
   <div class="container">
     <div class="salon-split">
-      <div class="salon-photo">
+      <div class="salon-photo" data-reveal="scale">
         <img src="images/salong.jpg" alt="Ilutegu ilusalongi sissepääs Tabasalus" loading="lazy">
       </div>
       <div class="salon-text">
         <img class="salon-watermark" src="images/logo.png" alt="" aria-hidden="true">
-        <div class="salon-copy">
-          <h2>Meie salong</h2>
-          <p>Ilutegu on hubane kogupere ilusalong Tabasalu südames. Meie juurde on oodatud kõik – lastest vanavanemateni, esimesest tukalõikusest piduliku soenguni.</p>
-          <p>Salongi ees on tasuta parkimine ja bussipeatus asub vaid 200 meetri kaugusel.</p>
-          <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Broneeri aeg</a>
+        <div class="salon-copy" data-reveal-group="110">
+          <h2 data-reveal>Meie salong</h2>
+          <p data-reveal>Ilutegu on hubane kogupere ilusalong Tabasalu südames. Meie juurde on oodatud kõik – lastest vanavanemateni, esimesest tukalõikusest piduliku soenguni.</p>
+          <p data-reveal>Salongi ees on tasuta parkimine ja bussipeatus asub vaid 200 meetri kaugusel.</p>
+          <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold" data-reveal="btn">Broneeri aeg</a>
         </div>
       </div>
     </div>
@@ -134,12 +135,12 @@
 </section>
 
 <section id="hinnakiri" class="section">
-  <div class="container">
-    <h2>Hinnakiri</h2>
-    <p class="section-sub">Selged hinnad, üllatusteta</p>
-    <div class="price-columns">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Hinnakiri</h2>
+    <p class="section-sub" data-reveal>Selged hinnad, üllatusteta</p>
+    <div class="price-columns" data-reveal-group="120">
 
-      <div class="price-group">
+      <div class="price-group" data-reveal>
         <h3>Juuksur</h3>
 
         <h4>Salgutamine + lõikus + föönisoeng</h4>
@@ -171,7 +172,7 @@
         <div class="price-row"><span>Osaliselt ülespandud soeng</span><span class="price">35 €</span></div>
       </div>
 
-      <div class="price-group">
+      <div class="price-group" data-reveal>
         <h3>Massaaž</h3>
         <div class="price-row"><span>Megamõnnatamine, 2 h</span><span class="price">80 €</span></div>
         <div class="price-row"><span>Klassikaline massaaž, 1,5 h</span><span class="price">60 €</span></div>
@@ -201,10 +202,10 @@
 </section>
 
 <section id="broneeri" class="booking-cta">
-  <div class="container">
-    <h2>Valmis end hellitama?</h2>
-    <p>Leia endale sobiv aeg mugavalt veebis – valime koos parima hetke sinu ilu ja heaolu jaoks.</p>
-    <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn-book">
+  <div class="container" data-reveal-group="110">
+    <h2 data-reveal>Valmis end hellitama?</h2>
+    <p data-reveal>Leia endale sobiv aeg mugavalt veebis – valime koos parima hetke sinu ilu ja heaolu jaoks.</p>
+    <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn-book" data-reveal="btn">
       Broneeri aeg
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
@@ -212,22 +213,22 @@
 </section>
 
 <section id="kontakt" class="section">
-  <div class="container">
-    <h2>Kontakt</h2>
-    <p class="section-sub">Tule läbi või helista</p>
-    <div class="contact-grid">
-      <div class="contact-block">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Kontakt</h2>
+    <p class="section-sub" data-reveal>Tule läbi või helista</p>
+    <div class="contact-grid" data-reveal-group="100">
+      <div class="contact-block" data-reveal>
         <h3>Asukoht</h3>
         <p>Teenuste 2, Tabasalu 76901</p>
         <p><a href="https://maps.google.com/?q=Teenuste+2,+Tabasalu" target="_blank" rel="noopener">Vaata kaardil</a></p>
         <p>Tasuta parkimine · bussipeatus 200 m</p>
       </div>
-      <div class="contact-block">
+      <div class="contact-block" data-reveal>
         <h3>Lahtiolekuajad</h3>
         <p>E–R 9.00–20.00</p>
         <p>L–P kokkuleppel</p>
       </div>
-      <div class="contact-block">
+      <div class="contact-block" data-reveal>
         <h3>Võta ühendust</h3>
         <p><a href="tel:+37253000670">+372 5300 0670</a></p>
         <p><a href="mailto:terts75@gmail.com">terts75@gmail.com</a></p>
@@ -255,19 +256,8 @@ document.getElementById("themeToggle").addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   localStorage.setItem("ilutegu-theme", next);
 });
-
-const revealTargets = document.querySelectorAll(".service-card, .price-group, .contact-block, .booking-cta h2, .booking-cta p, .booking-cta .btn-book");
-revealTargets.forEach(el => el.classList.add("reveal"));
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-revealTargets.forEach(el => observer.observe(el));
 </script>
+<script src="animations.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9ac4abef822d40cf8b7336e047d44fff"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
