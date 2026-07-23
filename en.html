@@ -6,6 +6,7 @@
   var stored = localStorage.getItem("ilutegu-theme");
   var theme = stored || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   document.documentElement.dataset.theme = theme;
+  document.documentElement.classList.add("js");
 })();
 </script>
 <meta charset="UTF-8">
@@ -44,37 +45,37 @@
 
 <section class="hero-wrap">
   <div class="container">
-    <div class="hero">
-      <p class="eyebrow">Beauty salon · Tabasalu</p>
-      <h1>Family hairdresser and beauty salon</h1>
-      <p class="lead">Hair, massage, lashes and pedicure – beauty and wellbeing for the whole family under one roof, made with heart.</p>
-      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Book an appointment</a>
-      <a href="#prices" class="btn btn-ghost">See prices</a>
+    <div class="hero" data-reveal-now data-reveal-group="110">
+      <p class="eyebrow" data-reveal>Beauty salon · Tabasalu</p>
+      <h1 data-reveal>Family hairdresser and beauty salon</h1>
+      <p class="lead" data-reveal>Hair, massage, lashes and pedicure – beauty and wellbeing for the whole family under one roof, made with heart.</p>
+      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold" data-reveal="btn">Book an appointment</a>
+      <a href="#prices" class="btn btn-ghost" data-reveal="btn">See prices</a>
     </div>
   </div>
 </section>
 
 <section id="services" class="section">
-  <div class="container">
-    <h2>Services</h2>
-    <p class="section-sub">What we offer</p>
-    <div class="services-grid">
-      <div class="service-card">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Services</h2>
+    <p class="section-sub" data-reveal>What we offer</p>
+    <div class="services-grid" data-reveal-group="100">
+      <div class="service-card" data-reveal>
         <div class="icon">✂</div>
         <h3>Hair</h3>
         <p>Cuts, coloring, highlights and styling for the whole family – from kids to grandparents.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">✧</div>
         <h3>Massage</h3>
         <p>Classic, aroma and children's massage, plus reflexology foot therapy.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">❋</div>
         <h3>Lashes</h3>
         <p>Classic and hybrid lash extensions and maintenance.</p>
       </div>
-      <div class="service-card">
+      <div class="service-card" data-reveal>
         <div class="icon">❀</div>
         <h3>Pedicure</h3>
         <p>Spa pedicure with or without gel polish – a treat for your feet.</p>
@@ -86,16 +87,16 @@
 <section id="salon" class="section section-alt">
   <div class="container">
     <div class="salon-split">
-      <div class="salon-photo">
+      <div class="salon-photo" data-reveal="scale">
         <img src="images/salong.jpg" alt="Entrance of Ilutegu beauty salon in Tabasalu" loading="lazy">
       </div>
       <div class="salon-text">
         <img class="salon-watermark" src="images/logo.png" alt="" aria-hidden="true">
-        <div class="salon-copy">
-          <h2>Our salon</h2>
-          <p>Ilutegu is a cozy family beauty salon in the heart of Tabasalu. Everyone is welcome – from kids to grandparents, from a first bangs trim to a festive updo.</p>
-          <p>Free parking right outside, and the bus stop is only 200 meters away.</p>
-          <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold">Book an appointment</a>
+        <div class="salon-copy" data-reveal-group="110">
+          <h2 data-reveal>Our salon</h2>
+          <p data-reveal>Ilutegu is a cozy family beauty salon in the heart of Tabasalu. Everyone is welcome – from kids to grandparents, from a first bangs trim to a festive updo.</p>
+          <p data-reveal>Free parking right outside, and the bus stop is only 200 meters away.</p>
+          <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn btn-gold" data-reveal="btn">Book an appointment</a>
         </div>
       </div>
     </div>
@@ -103,12 +104,12 @@
 </section>
 
 <section id="prices" class="section">
-  <div class="container">
-    <h2>Price list</h2>
-    <p class="section-sub">Clear prices, no surprises</p>
-    <div class="price-columns">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Price list</h2>
+    <p class="section-sub" data-reveal>Clear prices, no surprises</p>
+    <div class="price-columns" data-reveal-group="120">
 
-      <div class="price-group">
+      <div class="price-group" data-reveal>
         <h3>Hair</h3>
 
         <h4>Highlights + cut + blow-dry</h4>
@@ -140,7 +141,7 @@
         <div class="price-row"><span>Half-up hairstyle</span><span class="price">35 €</span></div>
       </div>
 
-      <div class="price-group">
+      <div class="price-group" data-reveal>
         <h3>Massage</h3>
         <div class="price-row"><span>Mega relaxation, 2 h</span><span class="price">80 €</span></div>
         <div class="price-row"><span>Classic massage, 1.5 h</span><span class="price">60 €</span></div>
@@ -170,10 +171,10 @@
 </section>
 
 <section id="book" class="booking-cta">
-  <div class="container">
-    <h2>Ready to treat yourself?</h2>
-    <p>Find a time that suits you online – we'll help you pick the perfect moment for your beauty and wellbeing.</p>
-    <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn-book">
+  <div class="container" data-reveal-group="110">
+    <h2 data-reveal>Ready to treat yourself?</h2>
+    <p data-reveal>Find a time that suits you online – we'll help you pick the perfect moment for your beauty and wellbeing.</p>
+    <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="btn-book" data-reveal="btn">
       Book an appointment
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
@@ -181,22 +182,22 @@
 </section>
 
 <section id="contact" class="section">
-  <div class="container">
-    <h2>Contact</h2>
-    <p class="section-sub">Visit us or give us a call</p>
-    <div class="contact-grid">
-      <div class="contact-block">
+  <div class="container" data-reveal-group="100">
+    <h2 data-reveal>Contact</h2>
+    <p class="section-sub" data-reveal>Visit us or give us a call</p>
+    <div class="contact-grid" data-reveal-group="100">
+      <div class="contact-block" data-reveal>
         <h3>Location</h3>
         <p>Teenuste 2, Tabasalu 76901, Estonia</p>
         <p><a href="https://maps.google.com/?q=Teenuste+2,+Tabasalu" target="_blank" rel="noopener">View on map</a></p>
         <p>Free parking · bus stop 200 m away</p>
       </div>
-      <div class="contact-block">
+      <div class="contact-block" data-reveal>
         <h3>Opening hours</h3>
         <p>Mon–Fri 9:00–20:00</p>
         <p>Sat–Sun by appointment</p>
       </div>
-      <div class="contact-block">
+      <div class="contact-block" data-reveal>
         <h3>Get in touch</h3>
         <p><a href="tel:+37253000670">+372 5300 0670</a></p>
         <p><a href="mailto:terts75@gmail.com">terts75@gmail.com</a></p>
@@ -221,19 +222,8 @@ document.getElementById("themeToggle").addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   localStorage.setItem("ilutegu-theme", next);
 });
-
-const revealTargets = document.querySelectorAll(".service-card, .price-group, .contact-block, .booking-cta h2, .booking-cta p, .booking-cta .btn-book");
-revealTargets.forEach(el => el.classList.add("reveal"));
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-revealTargets.forEach(el => observer.observe(el));
 </script>
+<script src="animations.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9ac4abef822d40cf8b7336e047d44fff"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
