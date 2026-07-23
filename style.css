@@ -93,11 +93,15 @@ a { color: var(--gold-dark); }
 }
 
 .header-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
+  column-gap: 40px;
   padding: 18px 24px;
 }
+.header-inner .nav-left { justify-self: end; }
+.header-inner .nav-right { justify-self: start; }
+.header-inner .logo { justify-self: center; }
 
 .logo { display: block; line-height: 0; }
 .logo img { height: 44px; width: auto; display: block; }
@@ -752,7 +756,8 @@ a { color: var(--gold-dark); }
   .salon-text h2 { text-align: center; }
   .salon-text { text-align: center; }
   .salon-watermark { width: 220px; }
-  .header-inner { flex-direction: column; gap: 12px; }
+  .header-inner { display: flex; flex-direction: column; gap: 12px; }
+  .header-inner .logo { order: -1; }
   .site-header nav { flex-wrap: wrap; justify-content: center; gap: 14px; }
   .btn-ghost { margin-left: 0; margin-top: 12px; }
   .section { padding: 64px 0; }
