@@ -822,17 +822,25 @@ a { color: var(--gold-dark); }
   .salon-text h2 { text-align: center; }
   .salon-text { text-align: center; }
   .salon-watermark { width: 220px; }
+  /* Mobile top bar: [ theme toggle ] — [ logo ] — [ hamburger ] */
   .header-inner {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     column-gap: 12px;
+    padding: 14px 18px;
   }
-  .nav-left { display: none; }
-  .nav-right { grid-column: 1; justify-self: start; gap: 0; }
-  .nav-right a { display: none; }
+  /* NB: selectors need .header-inner prefix to beat `.site-header nav { display:flex }` */
+  .header-inner .nav-left { display: none; }            /* Teenused/Hinnakiri live in the dropdown */
+  .header-inner .nav-right {                            /* holds only the theme toggle on mobile */
+    grid-column: 1;
+    justify-self: start;
+    gap: 0;
+  }
+  .header-inner .nav-right a { display: none; }         /* Kontakt/Broneeri live in the dropdown */
   .header-inner .logo { grid-column: 2; justify-self: center; }
-  .nav-toggle { display: inline-flex; grid-column: 3; justify-self: end; }
-  .mobile-menu { display: flex; }
+  .header-inner .nav-toggle { display: inline-flex; grid-column: 3; justify-self: end; }
+  .header-inner .mobile-menu { display: flex; }
   .btn-ghost { margin-left: 0; margin-top: 12px; }
   .section { padding: 64px 0; }
 }
