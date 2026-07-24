@@ -832,14 +832,17 @@ a { color: var(--gold-dark); }
   }
   /* NB: selectors need .header-inner prefix to beat `.site-header nav { display:flex }` */
   .header-inner .nav-left { display: none; }            /* Teenused/Hinnakiri live in the dropdown */
+  /* All three pinned to row 1 — logo is before nav-right in the DOM, so without an
+     explicit row the grid pushes the theme button + burger onto a second row. */
   .header-inner .nav-right {                            /* holds only the theme toggle on mobile */
     grid-column: 1;
+    grid-row: 1;
     justify-self: start;
     gap: 0;
   }
   .header-inner .nav-right a { display: none; }         /* Kontakt/Broneeri live in the dropdown */
-  .header-inner .logo { grid-column: 2; justify-self: center; }
-  .header-inner .nav-toggle { display: inline-flex; grid-column: 3; justify-self: end; }
+  .header-inner .logo { grid-column: 2; grid-row: 1; justify-self: center; }
+  .header-inner .nav-toggle { display: inline-flex; grid-column: 3; grid-row: 1; justify-self: end; }
   .header-inner .mobile-menu { display: flex; }
   .btn-ghost { margin-left: 0; margin-top: 12px; }
   .section { padding: 64px 0; }
