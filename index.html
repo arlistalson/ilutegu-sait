@@ -70,6 +70,15 @@
         <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.7 14.9A8.5 8.5 0 1 1 9.1 3.3a7 7 0 0 0 11.6 11.6z"/></svg>
       </button>
     </nav>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Ava menüü" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#teenused">Teenused</a>
+      <a href="#hinnakiri">Hinnakiri</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="https://ilutegu.smartbron.ee/" target="_blank" rel="noopener" class="nav-cta">Broneeri</a>
+    </div>
   </div>
 </header>
 
@@ -256,6 +265,26 @@ document.getElementById("themeToggle").addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   localStorage.setItem("ilutegu-theme", next);
 });
+
+(function () {
+  const toggle = document.getElementById("navToggle");
+  const menu = document.getElementById("mobileMenu");
+  if (!toggle || !menu) return;
+  const setOpen = (open) => {
+    menu.classList.toggle("open", open);
+    toggle.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setOpen(!menu.classList.contains("open"));
+  });
+  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("click", (e) => {
+    if (menu.classList.contains("open") && !menu.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+  });
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+})();
 </script>
 <script src="animations.js" defer></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9ac4abef822d40cf8b7336e047d44fff"}'></script><!-- End Cloudflare Web Analytics -->
