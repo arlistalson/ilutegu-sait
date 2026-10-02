@@ -102,7 +102,7 @@
     <div class="booking-success" id="bkSuccess" hidden>
       <h3>Aitäh!</h3>
       <p id="bkSuccessText">Sinu broneeringu soov on teele saadetud. Võtame peagi ühendust!</p>
-      <p>Kiireloomulise sooviga helista <a href="tel:+37253000670">+372 5300 0670</a>.</p>
+      <p>Kiireloomulise sooviga helista <a href="tel:+3725109244">+372 510 9244</a>.</p>
     </div>
 
     <p class="staff-link"><a href="personal.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="#96733f" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2.5c-4.7 0-8.5 2.4-8.5 5.4V22h17v-2.1c0-3-3.8-5.4-8.5-5.4z"/></svg>Töötajatele</a></p>
@@ -159,7 +159,7 @@ fetch(API + "/services").then(r => r.json()).then(services => {
   [...new Set(SERVICES.map(s => s.category))]
     .forEach(cat => bkCategory.add(new Option(cat, cat)));
 }).catch(() => {
-  showError("Broneerimissüsteem ei ole hetkel kättesaadav. Palun helista +372 5300 0670.");
+  showError("Broneerimissüsteem ei ole hetkel kättesaadav. Palun helista +372 510 9244.");
   document.querySelector(".booking-submit").disabled = true;
 });
 
@@ -257,7 +257,7 @@ $("bookingForm").addEventListener("submit", e => {
       if (!ok) {
         throw new Error(status === 409
           ? (data.detail || "Valitud aeg on vahepeal broneeritud. Palun vali uus aeg.")
-          : "Broneerimine ebaõnnestus. Palun proovi uuesti või helista +372 5300 0670.");
+          : "Broneerimine ebaõnnestus. Palun proovi uuesti või helista +372 510 9244.");
       }
       notifyByEmail(data);
       $("bkSuccessText").textContent = "Sinu aeg on broneeritud: " + data.serviceName +
